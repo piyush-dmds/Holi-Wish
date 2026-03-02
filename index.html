@@ -22,7 +22,7 @@
             position: relative;
         }
 
-        /* Video: Centered and Scaled for all screens */
+        /* Video: Optimized for Mobile & Desktop */
         .back-video {
             position: fixed;
             top: 50%;
@@ -33,10 +33,8 @@
             height: auto;
             z-index: -1;
             transform: translate(-50%, -50%);
-            object-fit: cover;
+            object-fit: cover; /* Ensures video fills screen without stretching */
             filter: brightness(0.6);
-            /* Fallback for low power mode */
-            background: #000; 
         }
 
         .main-wrapper {
@@ -49,6 +47,7 @@
             z-index: 10;
         }
 
+        /* Glassmorphism Card */
         .wish-card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
@@ -73,6 +72,7 @@
             animation: hue-rotate 3s linear infinite;
         }
 
+        /* Improved Input Section */
         .input-group-custom {
             background: #fff;
             border-radius: 50px;
@@ -91,6 +91,7 @@
             font-weight: 600;
             color: #333;
             font-size: 1rem;
+            width: 100%;
         }
 
         .btn-create {
@@ -105,6 +106,8 @@
             transition: 0.3s;
         }
 
+        .btn-create:active { transform: scale(0.9); }
+
         .btn-whatsapp {
             background: #25d366;
             color: white;
@@ -114,68 +117,98 @@
             display: none; 
             margin-top: 15px;
             text-decoration: none !important;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            transition: 0.3s;
         }
 
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes hue-rotate { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(360deg); } }
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes hue-rotate {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
 
         @media (max-width: 480px) {
             .holi-title { font-size: 3.5rem; }
+            .wish-card { padding: 25px 20px; }
         }
     </style>
 </head>
 <body>
 
-    <video autoplay loop muted playsinline poster="fallback-image.jpg" class="back-video">
+    <video autoplay loop muted playsinline class="back-video">
         <source src="Happy Holi 2024 By CWS.mp4" type="video/mp4">
-        Your browser does not support the video tag.
     </video>
 
     <div class="main-wrapper">
         <div class="wish-card">
-            <p class="sender-name" style="color: #fff;">
-                <span id="displayName" style="color: #00ffcc; font-weight: 800; font-size: 1.8rem; text-transform: uppercase;">App Vriksh</span> 
-                <br> <span style="font-size: 0.9rem;">is wishing you</span>
+            <p class="sender-name" style="color: #fff; margin-bottom: 5px;">
+                <span id="displayName" style="color: #00ffcc; font-weight: 800; font-size: 1.8rem; text-transform: uppercase; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">App Vriksh</span> 
+                <br> <span style="font-size: 0.9rem; opacity: 0.9;">is wishing you</span>
             </p>
 
             <h1 class="holi-title">HAPPY <br> HOLI</h1>
 
-            <p class="message" style="color: #fff; text-shadow: 1px 1px 3px #000;">
-                "May your life be filled with the vibrant colors of joy!"
+            <p class="message" style="color: #fff; font-size: 1rem; line-height: 1.4; text-shadow: 1px 1px 3px #000;">
+                "May your life be filled with the vibrant colors of joy, success, and love."
             </p>
 
             <div class="user-action">
                 <div class="input-group-custom">
-                    <input type="text" id="nameBox" placeholder="Type name...">
+                    <input type="text" id="nameBox" placeholder="Type your name...">
                     <button class="btn-create" onclick="createWish()">Create</button>
                 </div>
-                <a href="#" id="waBtn" class="btn-whatsapp btn-block">🚀 Share on WhatsApp</a>
+                
+                <a href="#" id="waBtn" class="btn-whatsapp btn-block">
+                   🚀 Share on WhatsApp
+                </a>
             </div>
+            
+            <p style="color: rgba(255,255,255,0.6); font-size: 11px; margin-top: 20px; letter-spacing: 1px;">© 2026 | APP VRIKSH</p>
         </div>
     </div>
 
     <script>
-        // Logic to update name from URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
         window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const name = urlParams.get('n');
-            if (name) document.getElementById('displayName').innerText = name;
-            
-            // Mobile Autoplay Force
-            document.querySelector('video').play().catch(e => console.log("Autoplay blocked, waiting for interaction"));
+            var nameFromUrl = getUrlParameter('n');
+            if (nameFromUrl !== "") {
+                document.getElementById('displayName').innerText = nameFromUrl;
+            }
         };
 
         function createWish() {
             var inputName = document.getElementById('nameBox').value;
-            if (!inputName.trim()) return alert("Enter name!");
+            if (inputName.trim() === "") {
+                alert("Enter your name first! 😊");
+                return;
+            }
 
             document.getElementById('displayName').innerText = inputName;
-            var shareLink = window.location.origin + window.location.pathname + "?n=" + encodeURIComponent(inputName);
-            var waMessage = "🎨 *" + inputName + "* sent you a Holi surprise! %0A Click here 👇 %0A " + shareLink;
+            
+            var currentUrl = window.location.href.split('?')[0];
+            var shareLink = currentUrl + "?n=" + encodeURIComponent(inputName);
+            
+            var waMessage = "🎨 *" + inputName + "* sent you a colorful surprise! %0A Click below to see magic 👇 %0A%0A " + shareLink;
             
             var waBtn = document.getElementById('waBtn');
-            waBtn.href = (navigator.userAgent.match(/Android|iPhone/i) ? "whatsapp://send?text=" : "https://web.whatsapp.com/send?text=") + waMessage;
+            waBtn.href = "whatsapp://send?text=" + waMessage; // Better for mobile app triggers
             waBtn.style.display = "block";
+            
+            // Handle fallback for desktop WhatsApp
+            if(!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
+                waBtn.href = "https://web.whatsapp.com/send?text=" + waMessage;
+            }
         }
     </script>
 </body>
