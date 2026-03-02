@@ -1,137 +1,67 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>App Vriksh Happy Holi 2026</title>
-
-
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-  <link rel="stylesheet" href="style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Holi 2026 - Wish Your Friends!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-  <nav class="navbar navbar-expand-lg fixed-top">
+    <video autoplay loop muted playsinline class="back-video">
+        <source src="Happy Holi 2024 By CWS.mp4" type="video/mp4">
+    </video>
 
-      <div class="container">
-
-          <a class="navbar-brand text-white" href="#">
-
-           <div class="log">Happy Holi By AppVriksh</div>
-
-          </a>
-
-      <button class="navbar-toggler" type="button" data-toggle="collapse" >
-
-        <span class="navbar-toggler-icon"></span>
-
-      </button>
-
-   
-
-      <div class="collapse navbar-collapse" >
-
-        <ul class="navbar-nav ml-auto">
-
-          <li class="nav-item active">
-
-            <a class="btn btn-light" href="#">Home <span class="sr-only">(current)</span></a>
-
-          </li>
-
-          <li class="nav-item">
-
-            <a class="nav-link" href="#">Contact</a>
-
-          </li>
-
-          <li class="nav-item">
-
-              <a class="nav-link" href="#">About</a>
-
-            </li>
-
-           
-
-          <li class="nav-item dropdown">
-
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-              More
-
-            </a>
-
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-              <a class="dropdown-item" href="#">Action</a>
-
-              <a class="dropdown-item" href="#">Another action</a>
-
-              <div class="dropdown-divider"></div>
-
-              <a class="dropdown-item" href="#">Something else here</a>
-
+    <div class="main-container text-center">
+        
+        <div class="greeting-card p-4">
+            <p class="from-text">From: <span id="senderName" class="hue">Mausam Raj</span></p>
+            
+            <h1 class="main-title">HAPPY <br> <span class="holi-text">HOLI</span></h1>
+            
+            <div class="message-box">
+                <p>May your life be as colorful as the rainbow!</p>
             </div>
 
-          </li>
+            <div class="share-section mt-4">
+                <input type="text" id="nameInput" class="form-control mb-2" placeholder="Enter Your Name">
+                <button onclick="updateName()" class="btn btn-warning btn-block font-weight-bold">Create My Wish</button>
+                
+                <a id="whatsappBtn" href="#" class="btn btn-success btn-block mt-2 d-none">
+                    👉 Share on WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
 
-        
+    <script>
+        function updateName() {
+            const name = document.getElementById('nameInput').value;
+            if(name.trim() !== "") {
+                document.getElementById('senderName').innerText = name;
+                
+                // Create WhatsApp Link
+                const url = window.location.href.split('?')[0]; // Get current URL
+                const encodedName = encodeURIComponent(name);
+                const shareLink = `https://api.whatsapp.com/send?text=🎨 *${name}* has sent you a magical Holi surprise! Click here to see: ${url}?name=${encodedName}`;
+                
+                const btn = document.getElementById('whatsappBtn');
+                btn.href = shareLink;
+                btn.classList.remove('d-none');
+            }
+        }
 
-      </div>
-
-      </div>
-
-    </nav>
-
-
-
-    <div class="myinfo">
-
-      <h1 class="holi">Hey there!</h1>
-
-      <h1>i am AppVriksh</h1>
-
-          <p>Wishing you and your loved ones a very colourful Holi<br>May you forget all your worries and enjoy this day to the fullest.<br> <h2 class="hue">Happy Holi!</h2></p>
-
-
-
-              <a href="#" class="btn btn-danger mr-3 hue">contact</a>
-
-              <a href="#" class="btn btn-light">Login</a>
-
-      </div>
-
-
-
-      <video autoplay loop play-inline muted  >
-
-          <source src="Happy Holi 2026 By CWS.mp4">
-
-              video is not load
-
-          </video>
-
-
-
-  
-
+        // Auto-load name from URL for viral effect
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            if (name) {
+                document.getElementById('senderName').innerText = decodeURIComponent(name);
+            }
+        }
+    </script>
 </body>
-
-
-
 </html>
-
-
-
 
