@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Holi 2026 | Special Wish For You</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        /* Background Video Positioning */
+        .back-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            filter: brightness(0.5);
+        }
+
+        .main-wrapper {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* Glassmorphism Card */
+        .wish-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .sender-name {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .holi-title {
+            font-family: 'Luckiest Guy', cursive;
+            font-size: 5rem;
+            line-height: 1;
+            margin: 10px 0;
+            background: linear-gradient(to right, #ff0000, #fff200, #1eff00, #00f2ff, #7000ff, #ff00c8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: hue-rotate 3s linear infinite;
+        }
+
+        .message {
+            color: #eee;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 5px #000;
+        }
+
+        /* Input & Share Section */
+        .input-group-custom {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .input-group-custom input {
+            border: none;
+            background: transparent;
+            padding: 10px 20px;
+            flex: 1;
+            outline: none;
+            font-weight: bold;
+        }
+
+        .btn-create {
+            background: #ff4757;
+            color: white;
+            border-radius: 50px;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+            border-radius: 50px;
+            padding: 12px;
+            font-weight: bold;
+            display: none; /* Hidden until name is entered */
+            text-decoration: none !important;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes hue-rotate {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+
+        @media (max-width: 480px) {
+            .holi-title { font-size: 3.5rem; }
+            .wish-card { padding: 20px 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <video autoplay loop muted playsinline class="back-video">
+        <source src="Happy Holi 2024 By CWS.mp4" type="video/mp4">
+    </video>
+
+    <div class="main-wrapper">
+        <div class="wish-card">
+            <p class="sender-name">
+                <span id="displayName" style="color: #00ffcc; font-weight: bold; font-size: 1.8rem; text-transform: uppercase;">Mausam Raj</span> <br> <span style="font-size: 0.9rem;">is wishing you</span>
+            </p>
+
+            <h1 class="holi-title">HAPPY <br> HOLI</h1>
+
+            <p class="message">
+                "May your life be filled with the vibrant colors of joy, success, and love. Have a wonderful Holi!"
+            </p>
+
+            <div class="user-action">
+                <div class="input-group-custom">
+                    <input type="text" id="nameBox" placeholder="Enter Your Name">
+                    <button class="btn-create" onclick="createWish()">Create</button>
+                </div>
+                
+                <a href="#" id="waBtn" class="btn-whatsapp btn-block">
+                    📤 Share on WhatsApp
+                </a>
+            </div>
+            
+            <p style="color: rgba(255,255,255,0.5); font-size: 10px; margin-top: 15px;">© Mausam Raj | Happy Holi 2026</p>
+        </div>
+    </div>
+
+    <script>
+        // 1. Logic to get name from URL (Viral Effect)
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        window.onload = function() {
+            var nameFromUrl = getUrlParameter('n');
+            if (nameFromUrl !== "") {
+                document.getElementById('displayName').innerText = nameFromUrl;
+            }
+        };
+
+        // 2. Logic to create new share link
+        function createWish() {
+            var inputName = document.getElementById('nameBox').value;
+            if (inputName.trim() === "") {
+                alert("Please enter your name first!");
+                return;
+            }
+
+            // Update UI
+            document.getElementById('displayName').innerText = inputName;
+            
+            // Create Shareable Link
+            var currentUrl = window.location.href.split('?')[0];
+            var shareLink = currentUrl + "?n=" + encodeURIComponent(inputName);
+            
+            // WhatsApp Message
+            var waMessage = "✨ *" + inputName + "* has sent you a special Holi greeting! 🎨🖌️ %0A%0A Click here to see the magic 👇 %0A " + shareLink;
+            
+            var waBtn = document.getElementById('waBtn');
+            waBtn.href = "https://api.whatsapp.com/send?text=" + waMessage;
+            waBtn.style.display = "block";
+            
+            // Scroll to button
+            waBtn.scrollIntoView({behavior: "smooth"});
+        }
+    </script>
+</body>
+</html>
